@@ -286,102 +286,392 @@ def main():
         }
 
     # Global CSS theme
+    # --- BRIGHT BLUE THEME (replace the dark CSS block with this) ---
     st.markdown(
         """
-        <style>
-        .stApp {
-            background: radial-gradient(circle at top left, #1f2937 0, #020617 40%, #020617 100%);
-            color: #e5e7eb;
-        }
-        .card {
-            padding: 1.1rem 1.3rem;
-            border-radius: 1rem;
-            background: rgba(15, 23, 42, 0.95);
-            border: 1px solid rgba(148, 163, 184, 0.35);
-            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
-        }
-        .small-card {
-            padding: 0.9rem 1.0rem;
-        }
-        .card-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.09em;
-            color: #9ca3af;
-            margin-bottom: 0.05rem;
-        }
-        .card-value {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #e5e7eb;
-        }
-        .card-unit {
-            font-size: 0.8rem;
-            margin-left: 0.25rem;
-            color: #9ca3af;
-        }
-        .section-title h2 {
-            margin-bottom: 0.2rem;
-        }
-        .section-title {
-            margin-top: 1.4rem;
-            margin-bottom: 0.6rem;
-        }
-        .pill {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.2rem 0.55rem;
-            border-radius: 999px;
-            font-size: 0.7rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            margin-bottom: 0.2rem;
-        }
-        .pill-primary {
-            background: rgba(59, 130, 246, 0.12);
-            color: #60a5fa;
-            border: 1px solid rgba(59, 130, 246, 0.5);
-        }
-        .pill-secondary {
-            background: rgba(16, 185, 129, 0.12);
-            color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.4);
-        }
-        .pill-outline {
-            background: transparent;
-            color: #e5e7eb;
-            border: 1px dashed rgba(148, 163, 184, 0.7);
-        }
-        /* Mode cards */
-        .mode-card {
-            cursor: pointer;
-            transition: all 0.18s ease-out;
-            border-radius: 0.9rem;
-            padding: 0.9rem 1rem;
-            border: 1px solid rgba(148,163,184,0.35);
-            background: rgba(15,23,42,0.8);
-        }
-        .mode-card:hover {
-            border-color: #60a5fa;
-            box-shadow: 0 0 0 1px rgba(37,99,235,0.5);
-            transform: translateY(-1px);
-        }
-        .mode-card.active {
-            border-color: #60a5fa;
-            background: radial-gradient(circle at top left, rgba(37,99,235,0.35), rgba(15,23,42,0.9));
-        }
-        .mode-title {
-            font-weight: 600;
-            margin-bottom: 0.15rem;
-        }
-        .mode-desc {
-            font-size: 0.8rem;
-            color: #9ca3af;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
+    <style>
+    .stApp {
+        background: #f5f8ff !important;
+        color: #0f172a !important;
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* Cards */
+    .card {
+        padding: 1.1rem 1.3rem;
+        border-radius: 1rem;
+        background: #ffffff;
+        border: 1px solid rgba(0,0,0,0.08);
+        box-shadow: 0px 4px 16px rgba(0,0,0,0.06);
+    }
+
+    .small-card {
+        padding: 0.9rem 1rem;
+        background: #ffffff !important;
+    }
+
+    .card-label {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        color: #64748b;
+    }
+
+    .card-value {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    .card-unit {
+        font-size: 0.8rem;
+        margin-left: 0.25rem;
+        color: #64748b;
+    }
+
+    .section-title h2 {
+        color: #0f172a;
+    }
+    .section-title {
+        margin-top: 1.4rem;
+        margin-bottom: 0.6rem;
+    }
+    
+
+    .pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.22rem 0.55rem;
+        border-radius: 999px;
+        font-size: 0.7rem;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+    }
+
+    .pill-primary {
+        background: rgba(37, 99, 235, 0.12);
+        color: #2563eb;
+        border: 1px solid rgba(37, 99, 235, 0.28);
+    }
+
+    .pill-secondary {
+        background: rgba(16, 185, 129, 0.12);
+        color: #10b981;
+        border: 1px solid rgba(16, 185, 129, 0.28);
+    }
+
+    .pill-outline {
+        background: transparent !important;
+        color: #475569;
+        border: 1px dashed rgba(148,163,184,0.6);
+    }
+
+    .mode-card {
+        cursor: pointer;
+        border-radius: 0.9rem;
+        padding: 0.9rem 1rem;
+        background: #ffffff;
+        border: 1px solid rgba(0,0,0,0.08);
+        transition: all .15s ease-out;
+    }
+    .mode-card:hover {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+    }
+    .mode-card.active {
+        border-color: #2563eb;
+        background: rgba(37, 99, 235, 0.08);
+    }
+    .mode-title {
+        font-weight: 600;
+        color: #0f172a;
+    }
+    .mode-desc {
+        font-size: 0.8rem;
+        color: #64748b;
+    }
+    /* ---------- Generic button base (consistent shape) ---------- */
+    /* Apply to common button markup variants used by Streamlit across versions */
+    div.stButton > button,
+    .stButton > button,
+    button.st-bt,
+    .css-1lsmgbg button { /* extra fallback class name examples */
+        border-radius: 12px !important;
+        padding: 0.6rem 1rem !important;
+        font-weight: 600 !important;
+        border: none !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        transition: transform .12s ease, background .15s ease;
+        display: inline-block !important;
+    }
+
+    /* ---------- BUTTONS: Robust targeted selectors per key + fallbacks ---------- */
+
+    /* 1) Upload File — Light Blue */
+    /* Target by outer div id that Streamlit adds (key -> id), by aria-label, or by position fallback */
+    div[id="mode_upload_btn"] > button,
+    button[id="mode_upload_btn"],
+    button[aria-label*="Upload"],
+    button[aria-label*="upload"],
+    div.stButton:nth-of-type(1) > button {
+        background: linear-gradient(180deg,#dbeafe,#bfdbfe) !important;
+        color: #1e3a8a !important;
+        border: 1px solid #bfdbfe !important;
+    }
+    div[id="mode_upload_btn"] > button:hover,
+    button[id="mode_upload_btn"]:hover,
+    button[aria-label*="Upload"]:hover {
+        background: #bfdbfe !important;
+        transform: translateY(-2px);
+    }
+
+    /* 2) Record Now — Medium Blue */
+    div[id="mode_record_btn"] > button,
+    button[id="mode_record_btn"],
+    button[aria-label*="Record"],
+    button[aria-label*="record"],
+    button[aria-label*="🎙️"] {
+        background: linear-gradient(180deg,#93c5fd,#60a5fa) !important;
+        color: #042a6b !important;
+        border: 1px solid #60a5fa !important;
+    }
+    div[id="mode_record_btn"] > button:hover,
+    button[id="mode_record_btn"]:hover {
+        background: #3b82f6 !important;
+        transform: translateY(-2px);
+    }
+
+    /* 3) Run Analysis — Dark Blue */
+    div[id="analyze_upload"] > button,
+    div[id="analyze_record"] > button,
+    button[id="analyze_upload"],
+    button[id="analyze_record"],
+    button[id^="analyze"],
+    button[aria-label*="Run analysis"],
+    button[aria-label*="Analyze"],
+    button[aria-label*="🔍"] {
+        background: linear-gradient(180deg,#2563eb,#1e40af) !important;
+        color: #ffffff !important;
+        border: 1px solid #1e40af !important;
+        font-weight: 700 !important;
+    }
+    div[id="analyze_upload"] > button:hover,
+    div[id="analyze_record"] > button:hover,
+    button[id="analyze_upload"]:hover,
+    button[id="analyze_record"]:hover {
+        background: #1e40af !important;
+        transform: translateY(-2px);
+    }
+
+    /* ---------- Fallback: style any remaining buttons softly so none remain dark ---------- */
+    /* Apply gentle light-blue tint so third-party/styled buttons also fit the theme */
+    .stButton > button:not([style]) {
+        background: linear-gradient(180deg,#eef6ff,#dbeafe) !important;
+        color: #0f172a !important;
+        border: 1px solid rgba(37,99,235,0.12) !important;
+    }
+    .stButton > button:not([style]):hover {
+        background: linear-gradient(180deg,#e0efff,#bfdbfe) !important;
+        transform: translateY(-1px);
+    }
+
+    /* ---------- Small utility to avoid full-width stretch where undesirable ---------- */
+    div.stButton {
+        display: inline-block !important;
+    }
+    /* Outer uploader container */
+    div[data-testid="stFileUploader"] {
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    padding: 1rem !important;
+    border: 1px solid rgba(0,0,0,0.08) !important;
+    }
+
+    /* Inner dropzone area (DRAG & DROP zone) */
+    div[data-testid="stFileUploaderDropzone"] {
+    background: #eef6ff !important;      /* <<< your preferred color */
+    border-radius: 12px !important;
+    border: 1px dashed rgba(37,99,235,0.35) !important;
+    padding: 1rem !important;
+    }
+
+    /* Fix text color inside the uploader */
+    div[data-testid="stFileUploaderDropzone"] * {
+    color: #0f172a !important;
+    }
+
+    /* ---------- Robust file-uploader styling (many Streamlit versions) ---------- */
+
+    /* Common data-testid selector (newer Streamlit) */
+    div[data-testid="stFileUploader"],
+    div[data-testid="stFileUploaderDropzone"],
+    div[data-testid="stFileUploader"] > div {
+    background: transparent !important;
+    }
+
+    /* Target the dropzone area explicitly (light blue) */
+    div[data-testid="stFileUploaderDropzone"],
+    div[data-testid="stFileUploaderDropzone"] > div,
+    div[data-testid="stFileUploaderDropzone"] .css-1n76uvr { 
+    background: #eef6ff !important;
+    border-radius: 12px !important;
+    border: 1px dashed rgba(37,99,235,0.28) !important;
+    padding: 0.9rem !important;
+    color: #0f172a !important;
+    }
+
+    /* Fallback: Streamlit sometimes uses class-based wrappers */
+    div[class*="stFileUploader"],
+    div[class*="stFileUploader"] .css-1n76uvr,
+    div[class*="stFileUploader"] .upload {
+    background: #eef6ff !important;
+    border-radius: 12px !important;
+    border: 1px dashed rgba(37,99,235,0.28) !important;
+    padding: 0.9rem !important;
+    color: #0f172a !important;
+    }
+
+    /* Another fallback: direct child divs and labels inside uploader */
+    div[role="listbox"] > div[role="button"],
+    div[role="button"][data-testid="stFileUploaderDropzone"],
+    div[role="button"] > .css-1n76uvr {
+    background: #eef6ff !important;
+    color: #0f172a !important;
+    }
+
+    /* ensure text inside becomes readable */
+    div[data-testid="stFileUploaderDropzone"] * {
+    color: #0f172a !important;
+    }
+
+    /* Prevent full-width dark overlay in some versions */
+    div[data-testid="stFileUploader"] .stFileUploaderUi, 
+    div[data-testid="stFileUploader"] > div[role="presentation"] {
+    background: transparent !important;
+    }
+
+    /* Small safety: force uploader area to appear like a card */
+    div[data-testid="stFileUploader"] {
+    border-radius: 12px !important;
+    }
+
+    /* If the uploader still uses a shadow-dark container, make it light */
+    div[class*="upload"] > div, .stFileUploader, .upload {
+    background: #eef6ff !important;
+    }
+    /* ================================================================
+   FILE UPLOADER — COMBINED CSS FOR:
+   ✔ Light background for "Drag and drop file here"
+   ✔ Light blue styling for "Browse files" button
+   ================================================================= */
+
+   /* --- MAIN DROPZONE BOX (Drag & Drop) -------------------------------------- */
+
+   /* Newer Streamlit versions */
+   div.stFileDropzone {
+    background-color: #eef6ff !important;   /* Light blue */
+    border-radius: 12px !important;
+    border: 1px dashed #3b82f6 !important;
+    padding: 1rem !important;
+   }
+
+   /* Inner wrapper */
+   div.stFileDropzone > div {
+    background-color: #eef6ff !important;
+   }
+
+   /* Emotion-class dropzone (dynamic class names) */
+   div[class*="st-emotion-cache"][class*="FileDropzone"],
+   div[class*="st-emotion-cache"] div[class*="FileDropzone"],
+   div[class*="st-emotion-cache"] div[class*="uploadDropzone"] {
+    background-color: #eef6ff !important;
+    border-radius: 12px !important;
+    border: 1px dashed #3b82f6 !important;
+   }
+
+   /* Older Streamlit selector */
+   div[data-testid="stFileUploaderDropzone"] {
+    background-color: #eef6ff !important;
+    border-radius: 12px !important;
+    border: 1px dashed #3b82f6 !important;
+   }
+
+   /* Text color inside dropzone */
+   div.stFileDropzone *,
+   div[data-testid="stFileUploaderDropzone"] *,
+   div[class*="FileDropzone"] * {
+    color: #0f172a !important;
+    fill: #0f172a !important;
+   }
+
+   /* ----------------------------------------------------------------------- */
+
+
+   /* --- BROWSE FILES BUTTON ------------------------------------------------ */
+
+   /* Newer Streamlit versions */
+   label[data-testid="stFileUploaderBrowseButton"],
+   span[data-testid="stFileUploaderLabel"] {
+    background-color: #dbeafe !important;        /* Light blue button */
+    color: #1e3a8a !important;                   /* Deep blue text */
+    border-radius: 8px !important;
+    padding: 0.45rem 1rem !important;
+    font-weight: 600 !important;
+    border: 1px solid #bfdbfe !important;
+    cursor: pointer !important;
+   }
+
+   /* Hover effect */
+   label[data-testid="stFileUploaderBrowseButton"]:hover,
+   span[data-testid="stFileUploaderLabel"]:hover {
+    background-color: #bfdbfe !important;        /* Slightly darker */
+    color: #1e40af !important;
+   }
+
+   /* Emotion fallback (for older DOM layouts) */
+   div[class*="st-emotion-cache"] label {
+    background-color: #dbeafe !important;
+    color: #1e3a8a !important;
+    border-radius: 8px !important;
+    padding: 0.45rem 1rem !important;
+    font-weight: 600 !important;
+    border: 1px solid #bfdbfe !important;
+    cursor: pointer !important;
+   }
+
+   /* Hover fallback */
+   div[class*="st-emotion-cache"] label:hover {
+    background-color: #bfdbfe !important;
+   }
+
+   /* ----------------------------------------------------------------------- */
+   /* Hide Streamlit's default Dropzone text */
+   div[data-testid="stFileUploaderDropzone"] p {
+    visibility: hidden !important;
+   }
+
+   /* Insert your own custom text */
+   div[data-testid="stFileUploaderDropzone"]::after {
+    content: "Upload your audio file here";   /* <-- your custom text */
+    visibility: visible !important;
+    display: block;
+    text-align: left;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0f172a;                            /* text color */
+    margin-top: -2.2rem;                       /* position adjust */
+    padding-left: 3.2rem;                      /* to align with icon */
+    }
+
+  
+
+
+
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 
     # HERO
     st.markdown(
@@ -401,16 +691,27 @@ def main():
             ">
                 Deepfake Voice Intelligence
             </div>
-            <h1 style="color:#e5e7eb;font-size:2.2rem;margin-bottom:0.3rem;">
-                🎙️ DeepFake Voice Detection
+            <h1 style="
+            font-size:2.4rem;
+            margin-bottom:0.3rem;
+            font-weight:700;
+            background: linear-gradient(90deg, #2563eb, #1e40af);
+            -webkit-background-clip: text;
+            color: transparent;
+            ">
+            🎙️ DeepFake Voice Detection
             </h1>
-            <p style="color:#9ca3af;font-size:0.95rem;max-width:620px;margin:0 auto;">
-                A YAMNet-based pipeline that analyzes speech, extracts acoustic features, and predicts whether a voice clip
-                is <b>real</b> or <b>deepfake</b>. Use the <b>Input Panel</b> on the left and view results in the <b>Analysis Panel</b> on the right.
-            </p>
+
+           <p style="color:#475569; font-size:0.95rem; max-width:620px; margin:0 auto;">
+            A YAMNet-based pipeline that analyzes speech, extracts acoustic features, and predicts whether a
+            voice clip is <b>real</b> or <b>deepfake</b>. Use the <b>Input Panel</b> on the left and view results 
+            in the <b>Analysis Panel</b> on the right.
+           </p>
+
         </div>
         """,
         unsafe_allow_html=True,
+    
     )
 
     # --- MAIN TWO-COLUMN LAYOUT (left = Input Panel, right = Analysis Panel) ---
