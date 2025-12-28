@@ -1,5 +1,6 @@
 
 import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 import shutil
 import tempfile
 import warnings
