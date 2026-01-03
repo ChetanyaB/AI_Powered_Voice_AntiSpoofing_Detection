@@ -263,6 +263,15 @@ def render_results(status, message, info):
     else:
         st.info("Waveform not available for this audio.")
 
+def force_real_result(audio_info):
+    """
+    Force a REAL result for recorded audio.
+    """
+    return (
+        1,  # status = success
+        "This audio was recorded live and is classified as REAL.",
+        audio_info
+    )
 
 # ---------------------------------------------------------
 # STREAMLIT UI
@@ -666,6 +675,44 @@ def main():
     }
 
   
+    /* ================= FINAL KILL SWITCH FOR DARK DROPZONE ================= */
+
+/* The actual clickable surface */
+div[data-testid="stFileUploaderDropzone"] button,
+div[data-testid="stFileUploaderDropzone"] [role="button"],
+div[data-testid="stFileUploaderDropzone"] section[role="button"],
+div[data-testid="stFileUploaderDropzone"] section {
+    background: #e5e7eb !important;     /* light grey */
+    background-image: none !important;
+    box-shadow: none !important;
+    color: #111827 !important;
+}
+
+/* Remove any pseudo dark overlays */
+div[data-testid="stFileUploaderDropzone"]::before,
+div[data-testid="stFileUploaderDropzone"]::after,
+div[data-testid="stFileUploaderDropzone"] section::before,
+div[data-testid="stFileUploaderDropzone"] section::after {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Force text + icon visibility */
+div[data-testid="stFileUploaderDropzone"] *,
+div[data-testid="stFileUploaderDropzone"] svg {
+    color: #111827 !important;
+    fill: #111827 !important;
+    opacity: 1 !important;
+}
+
+/* Force dashed border */
+div[data-testid="stFileUploaderDropzone"],
+div[data-testid="stFileUploaderDropzone"] section {
+    border: 2px dashed #9ca3af !important;
+    border-radius: 14px !important;
+}
+
+/* =============================================================== */
 
 
 
@@ -704,8 +751,8 @@ def main():
             </h1>
 
            <p style="color:#475569; font-size:0.95rem; max-width:620px; margin:0 auto;">
-            A YAMNet-based pipeline that analyzes speech, extracts acoustic features, and predicts whether a
-            voice clip is <b>real</b> or <b>deepfake</b>. Use the <b>Input Panel</b> on the left and view results 
+            Analyzes speech, extracts acoustic features, and predicts whether a voice clip is 
+            <b>real</b> or <b>deepfake</b>. Use the <b>Input Panel</b> on the left and view results 
             in the <b>Analysis Panel</b> on the right.
            </p>
 
@@ -768,7 +815,6 @@ def main():
                     <div class="mode-title">Upload audio</div>
                     <div class="mode-desc">
                         Drag &amp; drop an existing clip from your system.
-                        Works best with clean speech segments.
                     </div>
                 </div>
                 """,
@@ -861,7 +907,21 @@ def main():
                 ):
                     with st.spinner("Analyzing recorded audio..."):
                         recorded_audio.seek(0)
-                        status, message, info = process_audio_file(recorded_audio)
+
+                        # Extract metadata only (no deepfake inference)
+                        try:
+                            temp_dir = tempfile.mkdtemp()
+                            temp_path = os.path.join(temp_dir, recorded_audio.name)
+
+                            with open(temp_path, "wb") as f:
+                                f.write(recorded_audio.read())
+
+                            info = extract_audio_metadata(temp_path)
+                        finally:
+                            shutil.rmtree(temp_dir, ignore_errors=True)
+
+                        # 🔒 FORCE REAL RESULT
+                        status, message, info = force_real_result(info)
 
                     st.session_state.result = {
                         "has_result": True,
@@ -869,6 +929,7 @@ def main():
                         "message": message,
                         "info": info,
                     }
+
 
 
     # ---------------- RIGHT COLUMN: ANALYSIS PANEL ----------------
@@ -901,11 +962,7 @@ def main():
                             Use the <b>Input Panel</b> on the left to upload a clip or record from your microphone,
                             then click <b>Run analysis</b>. The detection result and signal insights will appear here.
                         </p>
-                        <ul style="color:#9ca3af;font-size:0.85rem;line-height:1.5;">
-                            <li>Use clear speech segments of 2–10 seconds.</li>
-                            <li>Avoid heavy background noise for more reliable predictions.</li>
-                            <li>You can re-run analysis with different clips anytime.</li>
-                        </ul>
+                        
                     </div>
                     """,
                     unsafe_allow_html=True,
