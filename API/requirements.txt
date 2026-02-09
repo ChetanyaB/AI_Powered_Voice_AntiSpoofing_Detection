@@ -2,9 +2,8 @@
 streamlit
 tensorflow==2.20.0
 tensorflow-hub==0.16.1
+
 numpy
-setuptools
-wheel
 
 keras
 scikit-learn
