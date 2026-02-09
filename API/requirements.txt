@@ -1,9 +1,10 @@
 
+streamlit
 tensorflow
 tensorflow-hub
-setuptools>=68.0.0
-wheel
 numpy
+setuptools
+wheel
 
 keras
 scikit-learn
