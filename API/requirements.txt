@@ -1,11 +1,10 @@
+
 tensorflow
 keras
-#transformers==4.48.3
 scikit-learn
-#torch==2.5.1
 streamlit
 soundfile
-
+setuptools
 matplotlib
 numpy
 pandas
