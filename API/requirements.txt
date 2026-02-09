@@ -1,7 +1,8 @@
 
 tensorflow
 tensorflow-hub
-setuptools
+setuptools>=68.0.0
+wheel
 numpy
 
 keras
