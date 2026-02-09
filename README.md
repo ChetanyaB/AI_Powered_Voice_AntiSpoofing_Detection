@@ -14,7 +14,7 @@ The system analyzes speech signals and learns acoustic patterns that differentia
 
 1. Clone the repository and move into the project directory:
 
-git clone https://github.com/akshaya3107/AI_Powered_Voice_Antispoofing_Detection.git  
+git clone https://github.com/ChetanyaB/AI_Powered_Voice_AntiSpoofing_Detection.git  
 
 cd AI_Powered_Voice_Antispoofing_Detection  
 
