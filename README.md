@@ -1,6 +1,6 @@
 # AI Powered Voice Antispoofing Detection
 
-AI Powered Voice Antispoofing Detection is a machine learning based system that classifies voice audio as genuine human speech or spoofed audio such as deepfake, replay attack, or synthetic voice. The project focuses on improving security in voice-based authentication systems and preventing misuse of AI-generated voices.
+AI Powered Voice Antispoofing Detection is a deep learning based system that classifies voice audio as genuine human speech or spoofed audio such as deepfake, replay attack, or synthetic voice. The project focuses on improving security in voice-based authentication systems and preventing misuse of AI-generated voices.
 
 
 
