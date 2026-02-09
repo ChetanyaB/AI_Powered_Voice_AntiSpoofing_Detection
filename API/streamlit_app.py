@@ -719,7 +719,6 @@ def main():
             -webkit-background-clip: text;
             color: transparent;
             ">
-            🎙️ DeepFake Voice Detection
             </h1>
 
            <p style="color:#475569; font-size:0.95rem; max-width:620px; margin:0 auto;">
