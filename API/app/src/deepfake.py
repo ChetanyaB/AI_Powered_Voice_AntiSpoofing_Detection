@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import librosa
 import os
+import pkg_resources
 
 import tensorflow as tf
 import tensorflow_hub as hub
