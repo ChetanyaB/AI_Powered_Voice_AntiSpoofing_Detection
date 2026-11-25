@@ -75,7 +75,6 @@ pip install -r requirements.txt
 ```bash
 streamlit run streamlit_app.py
 ```
-
 Upload a `.wav / .mp3 / .flac / .ogg / .m4a` file, or switch to **Record now** and use your microphone. Sample clips are in [`API/samples/`](API/samples).
 
 **REST API**
