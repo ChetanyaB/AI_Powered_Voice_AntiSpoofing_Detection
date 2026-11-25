@@ -9,7 +9,7 @@ import os
 import warnings
 import librosa
 
-from app.src.deepfake import infa_deepfake
+from app.src.deepfake import infa_deepfake, infa_deepfake_with_scores
 
 warnings.filterwarnings("ignore")
 
@@ -59,37 +59,21 @@ async def deepfake(audio_file: UploadFile = File(...)):
 
 
 
-@app.post("/depfake")    
-async def deepfake(audio_file: UploadFile = File(...)):
-    disease_cls=[]
+@app.post("/depfake")
+async def deepfake_detect(audio_file: UploadFile = File(...)):
+    temp_dir = tempfile.mkdtemp()
     try:
-        # Create a temporary directory
-        temp_dir = tempfile.mkdtemp()
-
-        # Create a temporary file path
-        temp_file_path = os.path.join(temp_dir,audio_file.filename)
-
-        # Write the uploaded file content to the temporary file
+        temp_file_path = os.path.join(temp_dir, os.path.basename(audio_file.filename or "audio.wav"))
         with open(temp_file_path, "wb") as temp_file:
             shutil.copyfileobj(audio_file.file, temp_file)
 
-        sound_sample,sr=librosa.load(temp_file_path ,sr=16000)
-        print(sound_sample)
-
-        status, message=infa_deepfake(temp_file_path)
-        print("masage :" ,message)
-
-
-        shutil.rmtree(temp_dir)
-
-        if status ==1:
-            return {"status":1,"Message":message}
-        else:
-            return {"status":0,"Message":str(message)}
-    
+        status, message, scores = infa_deepfake_with_scores(temp_file_path)
+        if status == 1:
+            return {"status": 1, "Message": message, "scores": scores}
+        return {"status": 0, "Message": message}
 
     except Exception as e:
-        print("app")
-        return {"status":0,"Message":e}
-
-
+        # str(e): an Exception object is not JSON-serialisable (the API used to return {})
+        return {"status": 0, "Message": str(e)}
+    finally:
+        shutil.rmtree(temp_dir, ignore_errors=True)
