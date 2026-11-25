@@ -11,7 +11,7 @@ import soundfile as sf
 import streamlit as st
 import matplotlib.pyplot as plt
 
-from app.src.deepfake import infa_deepfake  # your existing inference function
+from app.src.deepfake import infa_deepfake_with_scores
 
 # Hide TF warnings
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
@@ -98,7 +98,8 @@ def process_audio_file(uploaded_file):
                 "waveform": np.array([]),
             }
 
-        status, message = infa_deepfake(temp_file_path)
+        status, message, scores = infa_deepfake_with_scores(temp_file_path)
+        audio_info["scores"] = scores
 
     finally:
         shutil.rmtree(temp_dir, ignore_errors=True)
@@ -134,6 +135,10 @@ def render_results(status, message, info):
             text_color = "#065f46"
             title = "✅ Real Audio"
 
+        scores = (info or {}).get("scores") or {}
+        confidence = (f" &nbsp;·&nbsp; confidence {scores.get(str(message).upper(), 0):.0%}"
+                      if scores else "")
+
         st.markdown(
             f"""
             <div class="card result-card" style="
@@ -142,7 +147,7 @@ def render_results(status, message, info):
             ">
                 <h3 style="color:{heading_color};margin-bottom:0.5rem;">{title}</h3>
                 <p style="color:{text_color};font-size:1rem;margin-top:0.25rem;">
-                    {message}
+                    {message}{confidence}
                 </p>
             </div>
             """,
@@ -262,16 +267,6 @@ def render_results(status, message, info):
         st.pyplot(fig)
     else:
         st.info("Waveform not available for this audio.")
-
-def force_real_result(audio_info):
-    """
-    Force a REAL result for recorded audio.
-    """
-    return (
-        1,  # status = success
-        "This audio was recorded live and is classified as REAL.",
-        audio_info
-    )
 
 # ---------------------------------------------------------
 # STREAMLIT UI
@@ -879,21 +874,9 @@ def main():
                 ):
                     with st.spinner("Analyzing recorded audio..."):
                         recorded_audio.seek(0)
-
-                        # Extract metadata only (no deepfake inference)
-                        try:
-                            temp_dir = tempfile.mkdtemp()
-                            temp_path = os.path.join(temp_dir, recorded_audio.name)
-
-                            with open(temp_path, "wb") as f:
-                                f.write(recorded_audio.read())
-
-                            info = extract_audio_metadata(temp_path)
-                        finally:
-                            shutil.rmtree(temp_dir, ignore_errors=True)
-
-                        # 🔒 FORCE REAL RESULT
-                        status, message, info = force_real_result(info)
+                        # Recorded audio goes through the same model as uploads
+                        # (it used to be hard-coded to always return REAL).
+                        status, message, info = process_audio_file(recorded_audio)
 
                     st.session_state.result = {
                         "has_result": True,

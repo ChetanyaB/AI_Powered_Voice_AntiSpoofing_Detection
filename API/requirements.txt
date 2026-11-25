@@ -3,7 +3,7 @@ keras
 #transformers==4.48.3
 scikit-learn
 #torch==2.5.1
-streamlit
+streamlit==1.60.0
 soundfile
 
 matplotlib
@@ -17,3 +17,7 @@ uvicorn
 python-multipart
 setuptools==69.5.1
 wheel
+# Starlette 1.8+ breaks Streamlit 1.60 media files (audio preview + waveform return HTTP 500)
+starlette==1.7.0
+pytest
+httpx

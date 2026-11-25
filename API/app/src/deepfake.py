@@ -24,34 +24,29 @@ def load_wav_16k_mono(filename):
 
     
 
-def infa_deepfake(audio_path):
+MY_CLASSES = ['FAKE', 'REAL']
+
+
+def infa_deepfake_with_scores(audio_path):
+  """Return (status, label, {"FAKE": p, "REAL": p}). status 1 = success, 0 = error."""
   try:
       testing_wav_data = load_wav_16k_mono(audio_path)
+      if testing_wav_data is None or len(testing_wav_data) == 0:
+          raise ValueError("Could not read audio. Please upload a valid WAV/MP3/FLAC/OGG file.")
 
-      # Reload the model
-      #reloaded_model = tf.saved_model.load(model_path)
-
-      # If it's a saved model, access the signature
       infer = deepfake_model.signatures['serving_default']
-
-      # Now use the model for prediction, passing in the necessary inputs (e.g., audio data)
-      # Make sure 'testing_wav_data' is prepared in the required shape/format
       input_tensor = tf.convert_to_tensor(testing_wav_data, dtype=tf.float32)
+      predictions = infer(input_tensor)['output_0'].numpy()
 
-      # Get the prediction output
-      output = infer(input_tensor)
-      predictions = output['output_0']  # Adjust 'output_0' based on your model's output signature
-
-      #print(predictions)
-      my_classes=['FAKE', 'REAL']
-
-      human_bot = my_classes[tf.math.argmax(predictions)]
-      #print(f'The main sound is: {human_bot}')
-      status=1
-      return status,human_bot
-
+      label = MY_CLASSES[int(np.argmax(predictions))]
+      scores = {c: round(float(p), 4) for c, p in zip(MY_CLASSES, predictions)}
+      return 1, label, scores
 
   except Exception as e:
-      print("infa")
-      status=0
-      return status,e
+      return 0, str(e), {}
+
+
+def infa_deepfake(audio_path):
+  """Backwards-compatible wrapper: returns (status, label_or_error_message)."""
+  status, message, _ = infa_deepfake_with_scores(audio_path)
+  return status, message

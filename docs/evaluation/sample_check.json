@@ -1,0 +1,53 @@
+{
+  "accuracy": 0.16666666666666666,
+  "clips": [
+    {
+      "file": "real/198-209-0000.ogg",
+      "truth": "REAL",
+      "predicted": "REAL",
+      "p_fake": 0.3736,
+      "p_real": 0.6264,
+      "correct": true
+    },
+    {
+      "file": "real/3436-172162-0000.ogg",
+      "truth": "REAL",
+      "predicted": "FAKE",
+      "p_fake": 0.5312,
+      "p_real": 0.4688,
+      "correct": false
+    },
+    {
+      "file": "real/5703-47212-0000.ogg",
+      "truth": "REAL",
+      "predicted": "FAKE",
+      "p_fake": 0.5828,
+      "p_real": 0.4172,
+      "correct": false
+    },
+    {
+      "file": "synthetic/tts_1.wav",
+      "truth": "FAKE",
+      "predicted": "REAL",
+      "p_fake": 0.2502,
+      "p_real": 0.7498,
+      "correct": false
+    },
+    {
+      "file": "synthetic/tts_2.wav",
+      "truth": "FAKE",
+      "predicted": "REAL",
+      "p_fake": 0.2648,
+      "p_real": 0.7352,
+      "correct": false
+    },
+    {
+      "file": "synthetic/tts_3.wav",
+      "truth": "FAKE",
+      "predicted": "REAL",
+      "p_fake": 0.0015,
+      "p_real": 0.9985,
+      "correct": false
+    }
+  ]
+}

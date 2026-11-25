@@ -1,0 +1,11 @@
+tests/test_api.py::test_tc01_health_endpoint PASSED                      [ 10%]
+tests/test_api.py::test_tc02_api_returns_label_and_scores[198-209-0000.ogg] PASSED [ 20%]
+tests/test_api.py::test_tc02_api_returns_label_and_scores[tts_1.wav] PASSED [ 30%]
+tests/test_api.py::test_tc03_corrupt_file_gives_readable_error PASSED    [ 40%]
+tests/test_api.py::test_tc04_supported_formats_wav_and_ogg PASSED        [ 50%]
+tests/test_api.py::test_tc05_stereo_44k_input_handled PASSED             [ 60%]
+tests/test_api.py::test_tc06_very_short_clip PASSED                      [ 70%]
+tests/test_api.py::test_tc07_prediction_is_deterministic PASSED          [ 80%]
+tests/test_api.py::test_tc08_metadata_pitch_in_human_range PASSED        [ 90%]
+tests/test_api.py::test_tc09_recorded_audio_uses_the_model PASSED        [100%]
+============================== 10 passed in 4.78s ==============================
