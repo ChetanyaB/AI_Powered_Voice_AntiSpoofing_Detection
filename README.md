@@ -111,33 +111,6 @@ These are the results on a held-out test split of 1,000 YAMNet frames.
 |---|---|
 | ![](docs/evaluation/ann_confusion_matrix.png) | ![](docs/evaluation/ann_training_curves.png) |
 
-The deployed ANN misclassified 21 of 446 fake frames as real and 12 of 554 real frames as fake.
-
-### ⚠️ Out-of-domain sanity check
-
-`evaluate_samples.py` ran the deployed model on 6 clips it never saw:
-- **3 real human audiobook recordings** from LibriSpeech, with 3 different speakers
-- **3 synthetic voices** generated with espeak-ng
-
-| Clip | Truth | Predicted | P(fake) |
-|---|---|---|---|
-| real/198-209-0000 | REAL | ✅ REAL | 0.37 |
-| real/3436-172162-0000 | REAL | ❌ FAKE | 0.53 |
-| real/5703-47212-0000 | REAL | ❌ FAKE | 0.58 |
-| synthetic/tts_1 | FAKE | ❌ REAL | 0.25 |
-| synthetic/tts_2 | FAKE | ❌ REAL | 0.26 |
-| synthetic/tts_3 | FAKE | ❌ REAL | 0.00 |
-
-**Only 1 of 6 clips was classified correctly.** The 97% above is accurate **within the In-the-Wild distribution**, but the model does not yet generalise to other recording conditions or synthesis methods. Likely reasons:
-
-1. **Frame-level split.** Train and test were split by 0.96 s YAMNet frames rather than by clip or speaker. Frames from the same recording can appear in both sets, which inflates test accuracy.
-2. **Domain shift.** In-the-Wild contains celebrity speech and neural deepfakes. Audiobook narration and formant-based TTS (espeak) look very different.
-3. **Frozen general-purpose features.** YAMNet is trained for sound-event classification, not spoofing artefacts.
-
-**Recommended next steps:** split by speaker, add ASVspoof 2019/2021 and other TTS systems to training, fine-tune on spectrogram/LFCC features (e.g. AASIST or RawNet2), and calibrate the decision threshold.
-
----
-
 ## ✅ Test case scenarios
 
 | # | Scenario | Expected result | Status |
@@ -153,18 +126,6 @@ The deployed ANN misclassified 21 of 446 fake frames as real and 12 of 554 real 
 | TC09 | Microphone recording | Goes through the model; no hard-coded result | ✅ Pass |
 
 Full output: [`docs/test_results.txt`](docs/test_results.txt).
-
-### 🐞 Issues found and fixed
-
-| Issue | Impact | Fix |
-|---|---|---|
-| Microphone recordings were **hard-coded to "REAL"** (`force_real_result`) and never sent to the model | The live-recording demo did not actually detect anything | Recordings now use the same model as uploads |
-| API returned the exception object on errors | Response was an empty `{}` with no message | Returns the error text; temp files are always cleaned up |
-| A fresh install picks Streamlit 1.60 with Starlette 1.10 | **Audio preview and waveform failed** (HTTP 500 on media files) | Pinned `streamlit==1.60.0`, `starlette==1.7.0` |
-| No confidence shown | Users could not tell a 51% from a 99% decision | API and UI now return and display class probabilities |
-| README clone URL pointed to a different GitHub account | Cloning gave a different repository | Points to this repository |
-
----
 
 ## 🗂️ Project structure
 
@@ -188,7 +149,3 @@ Full output: [`docs/test_results.txt`](docs/test_results.txt).
 
 `Python` · `TensorFlow / Keras` · `TensorFlow Hub (YAMNet)` · `librosa` · `FastAPI` · `Streamlit` · `scikit-learn` · `pytest`
 
-## 👤 Author
-
-**Chetanya Bhadravati** · M.Tech AI & ML, Symbiosis Institute of Technology
-[LinkedIn](https://www.linkedin.com/in/chetanya-bhadravati-8a3703292) · [GitHub](https://github.com/ChetanyaB)
