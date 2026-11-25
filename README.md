@@ -140,7 +140,6 @@ Full output: [`docs/test_results.txt`](docs/test_results.txt).
 │   ├── evaluate_samples.py        # Out-of-domain sanity check
 │   └── tests/test_api.py          # 10 automated test cases
 ├── deepfake-voice-clasification-yamnet-2.ipynb   # Training and evaluation notebook
-├── Project Presentation VOIS Marathon2.0.pptx
 ├── Hackathon_ProblemStatement.pdf
 └── docs/                          # Screenshots, evaluation plots, test log
 ```
